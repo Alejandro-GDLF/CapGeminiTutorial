@@ -46,6 +46,18 @@ public class GameLoanIT {
 
     ParameterizedTypeReference<ResponsePage<GameLoanDto>> responseTypePage = new ParameterizedTypeReference<ResponsePage<GameLoanDto>>() {
     };
+    
+    ParameterizedTypeReference<List<GameLoanDto>> responseTypeList = new ParameterizedTypeReference<List<GameLoanDto>>() {
+    };
+    
+    @Test
+    public void findAllShouldReturnListOfAllGameLoans() {
+    	ResponseEntity<List<GameLoanDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH,
+                HttpMethod.GET, null, responseTypeList);
+    	
+    	assertNotNull(response);
+    	assertEquals(TOTAL_GAMELOANS, response.getBody().size());
+    }
 
     @Test
     public void findFirstPageWithFiveSizeShouldReturnFirstFiveResults() {
@@ -75,8 +87,6 @@ public class GameLoanIT {
         assertEquals(elementsCount, response.getBody().getContent().size());
     }
     
-    ParameterizedTypeReference<List<GameLoanDto>> responseTypeList = new ParameterizedTypeReference<List<GameLoanDto>>() {
-    };
 
     @Test
     public void saveWithoutIdShouldCreateNewGameLoan() {
@@ -115,7 +125,7 @@ public class GameLoanIT {
     }
 
     @Test
-    public void modifyWithExistIdShouldModifyGameLoan() {
+    public void saveWithExistIdShouldModifyGameLoan() {
         Long NEW_GAMELOAN_CLIENT_ID = 1L;
 
         ClientDto clientDto = new ClientDto();
@@ -149,7 +159,7 @@ public class GameLoanIT {
     }
 
     @Test
-    public void modifyWithNotExistIdShouldThrowException() {
+    public void saveWithNotExistIdShouldThrowException() {
         long gameLoanId = TOTAL_GAMELOANS + 1;
 
         GameLoanDto dto = new GameLoanDto();

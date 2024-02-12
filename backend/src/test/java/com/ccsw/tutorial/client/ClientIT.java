@@ -123,20 +123,6 @@ public class ClientIT {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
-    public static final Long DELETE_CLIENT_ID = 1L;
-
-    /**
-     * @Test public void deleteWithExistsIdShouldDeleteClient() {
-     * 
-     *       restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" +
-     *       DELETE_CLIENT_ID, HttpMethod.DELETE, null, Void.class);
-     * 
-     *       ResponseEntity<List<ClientDto>> response =
-     *       restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET,
-     *       null, responseType); assertNotNull(response); assertEquals(2,
-     *       response.getBody().size()); }
-     */
-
     @Test
     public void deleteWithNotExistsIdShouldInternalError() {
 
