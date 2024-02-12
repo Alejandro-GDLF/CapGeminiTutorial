@@ -16,6 +16,8 @@ import com.ccsw.tutorial.common.criteria.SearchCriteria;
 import com.ccsw.tutorial.game.GameService;
 import com.ccsw.tutorial.gameloan.model.GameLoan;
 import com.ccsw.tutorial.gameloan.model.GameLoanDto;
+import com.ccsw.tutorial.gameloan.specifications.GameLoanSpecDirector;
+import com.ccsw.tutorial.gameloan.specifications.GameLoanSpecBuilder;
 import com.ccsw.tutorial.gameloan.model.GameLoanFiltersDto;
 import com.ccsw.tutorial.gameloan.model.GameLoanSearchDto;
 
@@ -42,11 +44,11 @@ public class GameLoanServiceImpl implements GameLoanService {
             throw new DataIntegrityViolationException("Loan duration can't be more than 14 days");
         }
         // game can't be lent to no more than two clients at once
-        if (this.gameLoanRepository.count(GameLoanFilterSpecs.gameLoansOfGameBetweenDates(dto)) >= 1) {
+        if (this.gameLoanRepository.count(GameLoanSpecDirector.gameLoansOfGameBetweenDates(dto)) >= 1) {
             throw new DataIntegrityViolationException("Game can not be lent to two clients at once.");
         }
         // client can't have no more than 2 games lent
-        if (this.gameLoanRepository.count(GameLoanFilterSpecs.gamesLoansOfClientBetweenDates(dto)) >= 2) {
+        if (this.gameLoanRepository.count(GameLoanSpecDirector.gamesLoansOfClientBetweenDates(dto)) >= 2) {
             throw new DataIntegrityViolationException("Clients can not have two games lent at once.");
         }
     }
@@ -71,15 +73,11 @@ public class GameLoanServiceImpl implements GameLoanService {
      */
     @Override
     public Page<GameLoan> findPage(GameLoanSearchDto dto, GameLoanFiltersDto filters_dto) {
-        Specification<GameLoan> gameTitleSpec = GameLoanFilterSpecs.hasGameTitle(filters_dto.getGame_title());
-        
-        GameLoanSpecification clientSpec = new GameLoanSpecification(
-                new SearchCriteria("client.id", ":", filters_dto.getClient_id()));
-        Specification<GameLoan> timeSpec = GameLoanFilterSpecs.gameLoansInDate(filters_dto.getDate());
+    	GameLoanSpecBuilder builder = new GameLoanSpecBuilder(GameLoanSpecDirector.hasGameTitle(filters_dto.getGame_title()))
+    			.or(new SearchCriteria("client.id", ":", filters_dto.getClient_id()))
+    			.or(GameLoanSpecDirector.gameLoansInDate(filters_dto.getDate()));
 
-        Specification<GameLoan> spec = Specification.where(timeSpec).or(clientSpec).or(gameTitleSpec);
-
-        return this.gameLoanRepository.findAll(spec, dto.getPageable().getPageable());
+        return this.gameLoanRepository.findAll(builder.build(), dto.getPageable().getPageable());
     }
 
     /**
