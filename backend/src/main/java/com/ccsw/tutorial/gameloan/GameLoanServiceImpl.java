@@ -50,17 +50,25 @@ public class GameLoanServiceImpl implements GameLoanService {
             throw new DataIntegrityViolationException("Clients can not have two games lent at once.");
         }
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameLoan get(Long id) {
         return this.gameLoanRepository.findById(id).orElse(null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<GameLoan> findAll() {
         return (List<GameLoan>) this.gameLoanRepository.findAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Page<GameLoan> findPage(GameLoanSearchDto dto, GameLoanFiltersDto filters_dto) {
         Specification<GameLoan> gameTitleSpec = GameLoanFilterSpecs.hasGameTitle(filters_dto.getGame_title());
@@ -74,6 +82,9 @@ public class GameLoanServiceImpl implements GameLoanService {
         return this.gameLoanRepository.findAll(spec, dto.getPageable().getPageable());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void save(Long id, GameLoanDto data) {
         this.checkConstraints(data);

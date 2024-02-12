@@ -11,15 +11,16 @@ import com.ccsw.tutorial.gameloan.model.GameLoanSearchDto;
 
 public interface GameLoanService {
     /***
-     * Recupera un {@link GameLoan} a través de su ID**
+     * Recupera un {@link GameLoan} a través de su ID
      * 
-     * @param id PK de la entidad*@return {@link GameLoan}
+     * @param id PK de la entidad
+     * @return {@link GameLoan}
      */
 
     GameLoan get(Long id);
 
     /**
-     * Recupera un listado de autores {@link GameLoan}
+     * Recupera un listado de préstamos {@link GameLoan}
      *
      * @return {@link List} de {@link GameLoan}
      */
