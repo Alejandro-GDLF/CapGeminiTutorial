@@ -42,12 +42,18 @@ public class GameLoanServiceImpl implements GameLoanService {
         if (Duration.between(dto.getLoan_date(), dto.getReturn_date()).toDays() > 14) {
             throw new DataIntegrityViolationException("Loan duration can't be more than 14 days");
         }
+        
         // game can't be lent to no more than two clients at once
-        if (this.gameLoanRepository.count(GameLoanSpecDirector.gameLoansOfGameBetweenDates(dto)) >= 1) {
+        GameLoanSpecBuilder builder = new GameLoanSpecBuilder();
+        GameLoanSpecDirector.gameLoansOfGameBetweenDates(builder, dto);
+        if (this.gameLoanRepository.count(builder.build()) >= 1) {
             throw new DataIntegrityViolationException("Game can not be lent to two clients at once.");
         }
+        
         // client can't have no more than 2 games lent
-        if (this.gameLoanRepository.count(GameLoanSpecDirector.gamesLoansOfClientBetweenDates(dto)) >= 2) {
+        builder = new GameLoanSpecBuilder();
+        GameLoanSpecDirector.gamesLoansOfClientBetweenDates(builder, dto);
+        if (this.gameLoanRepository.count(builder.build()) >= 2) {
             throw new DataIntegrityViolationException("Clients can not have two games lent at once.");
         }
     }
@@ -72,9 +78,11 @@ public class GameLoanServiceImpl implements GameLoanService {
      */
     @Override
     public Page<GameLoan> findPage(GameLoanSearchDto dto, GameLoanFiltersDto filters_dto) {
-    	GameLoanSpecBuilder builder = new GameLoanSpecBuilder(GameLoanSpecDirector.hasGameTitle(filters_dto.getGame_title()))
-    			.or(new SearchCriteria("client.id", ":", filters_dto.getClient_id()))
-    			.or(GameLoanSpecDirector.gameLoansInDate(filters_dto.getDate()));
+    	GameLoanSpecBuilder builder = new GameLoanSpecBuilder();
+    	GameLoanSpecDirector.gameLoansInDate(builder, filters_dto.getDate());
+    	builder.or(new SearchCriteria("client.id", ":", filters_dto.getClient_id()))
+    	.or(new SearchCriteria("game.title", ":", filters_dto.getGame_title()));
+    	
 
         return this.gameLoanRepository.findAll(builder.build(), dto.getPageable().getPageable());
     }
