@@ -26,25 +26,15 @@
             </mat-select>
             <mat-error>Debe seleccionar un cliente</mat-error>
         </mat-form-field>
-        <div class="dates">
-            <mat-form-field>
-                <mat-label>Fecha de préstamo</mat-label>
-                <input matInput [matDatepicker]="loan_picker" [(ngModel)]="gameLoan.loan_date" name="loan_date" required/>
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="loan_picker"></mat-datepicker-toggle>
-                <mat-datepicker #loan_picker startView="month"></mat-datepicker>
-                <mat-error>Debe seleccionar una fecha de préstamo</mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Fecha de devolución</mat-label>
-                <input matInput [matDatepicker]="return_picker" [(ngModel)]="gameLoan.return_date" name="return_date" required/>
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="return_picker"></mat-datepicker-toggle>
-                <mat-datepicker #return_picker startView="month"></mat-datepicker>
-                <mat-error>Debe seleccionar una fecha de devolución</mat-error>
-            </mat-form-field>
-        </div>
+        <mat-form-field>
+            <mat-label>Fechas de préstamo</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Fecha de préstamo" [(ngModel)]="gameLoan.loan_date" name="loan_date" required>
+                <input matEndDate placeholder="Fecha de retorno" [(ngModel)]="gameLoan.return_date" name="return_date" required>
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker startView="month"></mat-date-range-picker>
+        </mat-form-field>
     </form>
 
     <div class="buttons">
