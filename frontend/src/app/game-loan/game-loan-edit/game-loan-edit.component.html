@@ -1,0 +1,54 @@
+<div class="container">
+    <h1>Crear Préstamo</h1>
+
+    <form>
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" name="id" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Juego</mat-label>
+            <mat-select [(ngModel)]="gameLoan.game" name="game" required>
+                <mat-option *ngFor="let game of this.games" [value]="game">
+                    {{game.title}}
+                </mat-option>
+            </mat-select>
+            <mat-error>Debe seleccionar un juego</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Cliente</mat-label>
+            <mat-select [(ngModel)]="gameLoan.client" name="client" required>
+                <mat-option *ngFor="let client of this.clients" [value]="client">
+                    {{client.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error>Debe seleccionar un cliente</mat-error>
+        </mat-form-field>
+        <div class="dates">
+            <mat-form-field>
+                <mat-label>Fecha de préstamo</mat-label>
+                <input matInput [matDatepicker]="loan_picker" [(ngModel)]="gameLoan.loan_date" name="loan_date" required/>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="loan_picker"></mat-datepicker-toggle>
+                <mat-datepicker #loan_picker startView="month"></mat-datepicker>
+                <mat-error>Debe seleccionar una fecha de préstamo</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Fecha de devolución</mat-label>
+                <input matInput [matDatepicker]="return_picker" [(ngModel)]="gameLoan.return_date" name="return_date" required/>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="return_picker"></mat-datepicker-toggle>
+                <mat-datepicker #return_picker startView="month"></mat-datepicker>
+                <mat-error>Debe seleccionar una fecha de devolución</mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>
