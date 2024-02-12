@@ -50,9 +50,14 @@ export class GameLoanEditComponent implements OnInit {
 
     onSave(): void {
         if(this.checkContraints())
-            this.gameLoanService.saveGameLoan(this.gameLoan).subscribe(result => {
-                this.dialogRef.close();
-            });
+            this.gameLoanService.saveGameLoan(this.gameLoan).subscribe({
+                next: data => {
+                    this.dialogRef.close();
+                },
+                error: err => {
+                    alert(err.error);
+                }
+        });
     }
 
     onClose(): void {

@@ -13,7 +13,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { GameLoanItemComponent } from './game-loan-list/game-loan-item/game-loan-item.component';
 
 
 
@@ -21,7 +20,6 @@ import { GameLoanItemComponent } from './game-loan-list/game-loan-item/game-loan
   declarations: [
     GameLoanListComponent,
     GameLoanEditComponent,
-    GameLoanItemComponent,
   ],
   imports: [
     CommonModule,

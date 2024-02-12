@@ -26,7 +26,7 @@ import { GameLoanModule } from './game-loan/game-loan.module';
     AuthorModule,
     GameModule,
     ClientModule,
-    GameLoanModule,
+    GameLoanModule
   ],
   providers: [
     provideAnimationsAsync(),
