@@ -17,9 +17,18 @@ export class GameLoanService {
     ) { }
 
     getGameLoans(pageable: Pageable, filters?: GameLoanFilters): Observable<GameLoanPage> {
-        const params = this.buildParams(filters);
+        let payload = {
+            pageable: pageable
+        };
 
-        return this.http.post<GameLoanPage>('http://localhost:8080/gameloan', {pageable: pageable}, {params: params});
+        if( filters )
+            Object.assign(payload, {
+                client_id: filters.client_id,
+                game_title: filters.game_title,
+                date: filters.date
+            });
+
+        return this.http.post<GameLoanPage>('http://localhost:8080/gameloan', payload);
     }
 
     saveGameLoan(game_loan: GameLoan): Observable<void> {
@@ -32,22 +41,5 @@ export class GameLoanService {
 
     deleteGameLoan(idGameLoan: number): Observable<void> {
         return this.http.delete<void>('http://localhost:8080/gameloan/' + idGameLoan);
-    }
-
-    private buildParams(filters?: GameLoanFilters): HttpParams | null {
-
-        if( filters == null )
-            return new HttpParams();
-
-        let httpParams: HttpParams = new HttpParams();
-        Object.keys(filters).forEach(key => {
-            if( filters[key] !== null )
-                if( filters[key] instanceof Date )
-                    httpParams = httpParams.set(key, filters[key].toISOString());
-                else
-                    httpParams = httpParams.set(key, filters[key]);
-        });
-
-        return httpParams;
     }
 }

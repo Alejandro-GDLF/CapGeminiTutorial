@@ -17,7 +17,6 @@ import com.ccsw.tutorial.gameloan.model.GameLoan;
 import com.ccsw.tutorial.gameloan.model.GameLoanDto;
 import com.ccsw.tutorial.gameloan.specifications.GameLoanSpecDirector;
 import com.ccsw.tutorial.gameloan.specifications.GameLoanSpecBuilder;
-import com.ccsw.tutorial.gameloan.model.GameLoanFiltersDto;
 import com.ccsw.tutorial.gameloan.model.GameLoanSearchDto;
 
 @Service
@@ -77,11 +76,11 @@ public class GameLoanServiceImpl implements GameLoanService {
      * {@inheritDoc}
      */
     @Override
-    public Page<GameLoan> findPage(GameLoanSearchDto dto, GameLoanFiltersDto filters_dto) {
+    public Page<GameLoan> findPage(GameLoanSearchDto dto) {
     	GameLoanSpecBuilder builder = new GameLoanSpecBuilder();
-    	GameLoanSpecDirector.gameLoansInDate(builder, filters_dto.getDate());
-    	builder.or(new SearchCriteria("client.id", ":", filters_dto.getClient_id()))
-    	.or(new SearchCriteria("game.title", ":", filters_dto.getGame_title()));
+    	GameLoanSpecDirector.gameLoansInDate(builder, dto.getDate());
+    	builder.or(new SearchCriteria("client.id", ":", dto.getClient_id()))
+    	.or(new SearchCriteria("game.title", ":", dto.getGame_title()));
     	
 
         return this.gameLoanRepository.findAll(builder.build(), dto.getPageable().getPageable());

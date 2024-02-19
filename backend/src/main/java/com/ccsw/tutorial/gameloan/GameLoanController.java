@@ -1,7 +1,5 @@
 package com.ccsw.tutorial.gameloan;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,12 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.tutorial.gameloan.model.GameLoan;
 import com.ccsw.tutorial.gameloan.model.GameLoanDto;
-import com.ccsw.tutorial.gameloan.model.GameLoanFiltersDto;
 import com.ccsw.tutorial.gameloan.model.GameLoanSearchDto;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,18 +48,8 @@ public class GameLoanController {
      */
     @Operation(summary = "Find Page", description = "Method that return a page of GameLoans")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public Page<GameLoanDto> findPage(@RequestParam(value = "game_title", required=false) String game_title,
-            @RequestParam(value = "client_id", required=false) Long client_id, @RequestParam(value = "date", required=false) String date,
-            @RequestBody GameLoanSearchDto search_dto) {
-
-        GameLoanFiltersDto filters_dto = new GameLoanFiltersDto();
-
-        filters_dto.setClient_id(client_id);
-        if(date != null)
-        	filters_dto.setDate(LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
-        filters_dto.setGame_title(game_title);
-
-        Page<GameLoan> page = this.gameLoanService.findPage(search_dto, filters_dto);
+    public Page<GameLoanDto> findPage(@RequestBody GameLoanSearchDto search_dto) {
+        Page<GameLoan> page = this.gameLoanService.findPage(search_dto);
 
         return new PageImpl<>(
                 page.getContent().stream().map(e -> mapper.map(e, GameLoanDto.class)).collect(Collectors.toList()),

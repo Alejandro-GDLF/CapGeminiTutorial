@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 
 import com.ccsw.tutorial.gameloan.model.GameLoan;
 import com.ccsw.tutorial.gameloan.model.GameLoanDto;
-import com.ccsw.tutorial.gameloan.model.GameLoanFiltersDto;
 import com.ccsw.tutorial.gameloan.model.GameLoanSearchDto;
 
 public interface GameLoanService {
@@ -32,7 +31,7 @@ public interface GameLoanService {
      * @param dto dto de búsqueda
      * @return {@link Page} de {@link GameLoan}
      */
-    Page<GameLoan> findPage(GameLoanSearchDto dto, GameLoanFiltersDto filters_dto);
+    Page<GameLoan> findPage(GameLoanSearchDto dto);
 
     /**
      * Método para crear o actualizar un {@link GameLoan}

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -34,6 +34,10 @@ import { GameLoanModule } from './game-loan/game-loan.module';
       provide: MAT_DATE_LOCALE,
       useValue: 'es-ES'
     },
+    {
+      provide: LOCALE_ID,
+      useValue: 'es-ES'
+    }
   ],
   bootstrap: [AppComponent]
 })
