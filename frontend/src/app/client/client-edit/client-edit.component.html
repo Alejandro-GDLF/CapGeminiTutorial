@@ -17,6 +17,7 @@
 
     <div class="buttons">
         <button mat-stroked-button (click)="onClose()">Cerrar</button>
-        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+        <button *ngIf="client.id == null" mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+        <button *ngIf="client.id != null" mat-flat-button color="primary" (click)="onUpdate()">Actualizar</button>
     </div>
 </div>
