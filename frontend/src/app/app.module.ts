@@ -3,6 +3,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import 'moment/locale/es';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,13 +33,14 @@ import { GameLoanModule } from './game-loan/game-loan.module';
   providers: [
     provideAnimationsAsync(),
     {
-      provide: MAT_DATE_LOCALE,
+      provide: LOCALE_ID,
       useValue: 'es-ES'
     },
     {
-      provide: LOCALE_ID,
+      provide: MAT_DATE_LOCALE,
       useValue: 'es-ES'
-    }
+    },
+    provideMomentDateAdapter()
   ],
   bootstrap: [AppComponent]
 })

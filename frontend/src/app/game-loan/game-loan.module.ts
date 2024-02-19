@@ -12,7 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 
@@ -39,8 +38,7 @@ import { provideNativeDateAdapter, MAT_DATE_LOCALE } from '@angular/material/cor
     {
       provide: MAT_DIALOG_DATA,
       useValue: {},
-    },
-    provideNativeDateAdapter()
+    }
   ]
 })
 export class GameLoanModule { }
