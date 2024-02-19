@@ -24,6 +24,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import com.ccsw.tutorial.client.model.Client;
 import com.ccsw.tutorial.client.model.ClientDto;
+import com.ccsw.tutorial.exception.NameAlreadyExistsException;
 
 @ExtendWith(MockitoExtension.class)
 public class ClientTest {
@@ -84,11 +85,11 @@ public class ClientTest {
 
         doReturn(CLIENT_EXISTS).when(clientRepository).count(Mockito.any(ClientSpecification.class));
 
-        assertThrows(DataIntegrityViolationException.class, () -> clientService.save(clientDto));
+        assertThrows(NameAlreadyExistsException.class, () -> clientService.save(clientDto));
     }
 
     @Test
-    public void saveNotRepeatedNameShouldSave() {
+    public void saveNotRepeatedNameShouldSave() throws NameAlreadyExistsException {
         ClientDto clientDto = new ClientDto();
         clientDto.setName(CLIENT_NAME);
 
@@ -113,11 +114,11 @@ public class ClientTest {
 
         doReturn(CLIENT_EXISTS).when(clientRepository).count(Mockito.any(ClientSpecification.class));
 
-        assertThrows(DataIntegrityViolationException.class, () -> clientService.update(EXISTS_CLIENT_ID, clientDto));
+        assertThrows(NameAlreadyExistsException.class, () -> clientService.update(EXISTS_CLIENT_ID, clientDto));
     }
 
     @Test
-    public void updateNotRepeatedNameShouldSave() {
+    public void updateNotRepeatedNameShouldSave() throws NameAlreadyExistsException {
         ClientDto clientDto = new ClientDto();
         clientDto.setName(CLIENT_NAME);
 

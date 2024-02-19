@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ccsw.tutorial.client.model.Client;
 import com.ccsw.tutorial.client.model.ClientDto;
+import com.ccsw.tutorial.exception.NameAlreadyExistsException;
 
 public interface ClientService {
     /**
@@ -26,8 +27,9 @@ public interface ClientService {
      *
      * @param id  PK de la entidad
      * @param dto datos de la entidad
+     * @throws NameAlreadyExistsException 
      */
-    void save(ClientDto dto);
+    void save(ClientDto dto) throws NameAlreadyExistsException;
 
     /**
      * Método actualizar un {@link Client}

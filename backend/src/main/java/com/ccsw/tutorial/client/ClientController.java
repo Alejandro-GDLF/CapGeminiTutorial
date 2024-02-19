@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.tutorial.client.model.Client;
 import com.ccsw.tutorial.client.model.ClientDto;
+import com.ccsw.tutorial.exception.NameAlreadyExistsException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -56,7 +57,7 @@ public class ClientController {
      */
     @Operation(summary = "Create", description = "Method that creates a Client")
     @RequestMapping(path = { "" }, method = RequestMethod.POST)
-    public void save(@RequestBody ClientDto dto) {
+    public void save(@RequestBody ClientDto dto) throws Exception {
 
         this.clientService.save(dto);
     }

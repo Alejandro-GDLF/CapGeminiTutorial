@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ccsw.tutorial.client.model.Client;
 import com.ccsw.tutorial.client.model.ClientDto;
 import com.ccsw.tutorial.common.criteria.SearchCriteria;
+import com.ccsw.tutorial.exception.*;
 
 import jakarta.transaction.Transactional;
 
@@ -46,13 +47,14 @@ public class ClientServiceImpl implements ClientService {
      * {@link DataIntegrityViolationException}
      * 
      * @param name Nombre de la entidad
+     * @throws NameAlreadyExistsException 
      * @throws {@link DataIntegrityViolationException}
      */
-    private void checkNameContraints(String name) throws DataIntegrityViolationException {
+    private void checkNameContraints(String name) throws NameAlreadyExistsException {
         // Check for repeated names
         if (this.doesNameExists(name)) {
             // Throw a 409 Conflict response code
-            throw new DataIntegrityViolationException("Name already exists");
+            throw new NameAlreadyExistsException();
         }
     }
 
@@ -76,7 +78,7 @@ public class ClientServiceImpl implements ClientService {
      * {@inheritDoc}
      */
     @Override
-    public void save(ClientDto dto) {
+    public void save(ClientDto dto) throws NameAlreadyExistsException{
         this.checkNameContraints(dto.getName());
 
         Client client = new Client();
