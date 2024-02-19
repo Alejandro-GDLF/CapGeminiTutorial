@@ -48,8 +48,8 @@ public class GameLoanController {
      */
     @Operation(summary = "Find Page", description = "Method that return a page of GameLoans")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public Page<GameLoanDto> findPage(@RequestBody GameLoanSearchDto search_dto) {
-        Page<GameLoan> page = this.gameLoanService.findPage(search_dto);
+    public Page<GameLoanDto> findPage(@RequestBody GameLoanSearchDto searchDto) {
+        Page<GameLoan> page = this.gameLoanService.findPage(searchDto);
 
         return new PageImpl<>(
                 page.getContent().stream().map(e -> mapper.map(e, GameLoanDto.class)).collect(Collectors.toList()),
