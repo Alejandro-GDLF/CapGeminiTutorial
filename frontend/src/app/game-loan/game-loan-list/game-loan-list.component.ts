@@ -90,10 +90,10 @@ export class GameLoanListComponent implements OnInit {
             game_loan.loan_date = new Date(game_loan.loan_date);
             game_loan.return_date = new Date(game_loan.return_date);
         });
-        this.dataSource.data = data.content;
         this.pageNumber = data.pageable.pageNumber;
         this.pageSize = data.pageable.pageSize;
         this.totalElements = data.totalElements;
+        this.dataSource.data = data.content;
     }
 
     createGameLoan() {
