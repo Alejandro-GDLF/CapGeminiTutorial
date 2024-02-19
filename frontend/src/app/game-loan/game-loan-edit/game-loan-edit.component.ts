@@ -1,8 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { ClientService } from 'src/app/client/client.service';
-import { GameService } from 'src/app/game/game.service';
 import { GameLoanService } from '../game-loan.service';
 import { Game } from 'src/app/game/model/Game';
 import { Client } from 'src/app/client/model/Client';
@@ -31,8 +28,7 @@ export class GameLoanEditComponent implements OnInit {
             return false;
         }
 
-        const diffDays = (this.gameLoan.return_date.getTime()
-        - this.gameLoan.loan_date.getTime())/ this.ONE_DAY;
+        const diffDays = this.gameLoan.return_date.diff(this.gameLoan.loan_date, 'days');
 
         if( diffDays > 14 ) {
             alert("La duración del préstamo no puede ser mayor a la de 14 días");

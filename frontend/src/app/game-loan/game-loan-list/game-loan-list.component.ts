@@ -12,6 +12,7 @@ import { Client } from 'src/app/client/model/Client';
 import { ClientService } from 'src/app/client/client.service';
 import { GameService } from 'src/app/game/game.service';
 import { GameLoanFilters } from '../model/GameLoanFilters';
+import moment, { Moment } from 'moment';
 
 @Component({
   selector: 'app-game-loan-list',
@@ -44,8 +45,8 @@ export class GameLoanListComponent implements OnInit {
         this.clientService.getClients().subscribe(result => this.clients = result);
     }
 
-    formatDate(date: Date): string {
-        return date.toLocaleDateString('es-ES');
+    formatDate(date: Moment): string {
+        return date.format('L');
     }
 
     onCleanFilter(): void {
@@ -87,8 +88,8 @@ export class GameLoanListComponent implements OnInit {
 
     loadData(data: any) {
         data.content.forEach(game_loan => {
-            game_loan.loan_date = new Date(game_loan.loan_date);
-            game_loan.return_date = new Date(game_loan.return_date);
+            game_loan.loan_date = moment(game_loan.loan_date);
+            game_loan.return_date = moment(game_loan.return_date);
         });
         this.pageNumber = data.pageable.pageNumber;
         this.pageSize = data.pageable.pageSize;

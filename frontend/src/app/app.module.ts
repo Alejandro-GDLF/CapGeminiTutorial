@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import es from '@angular/common/locales/es'
+import { registerLocaleData } from '@angular/common';
 import 'moment/locale/es';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +16,10 @@ import { AuthorModule } from './author/author.module';
 import { GameModule } from './game/game.module';
 import { ClientModule } from './client/client.module';
 import { GameLoanModule } from './game-loan/game-loan.module';
+import moment from 'moment';
+
+registerLocaleData(es);
+moment.locale('es-ES');
 
 @NgModule({
   declarations: [
