@@ -61,10 +61,11 @@ public class GameLoanController {
      *
      * @param id  PK de la entidad
      * @param dto datos de la entidad
+     * @throws Exception 
      */
     @Operation(summary = "Save or Update", description = "Method that saves or updates a GameLoan")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody GameLoanDto dto) {
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody GameLoanDto dto) throws Exception {
 
         this.gameLoanService.save(id, dto);
     }

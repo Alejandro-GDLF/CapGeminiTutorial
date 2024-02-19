@@ -10,8 +10,10 @@ import com.ccsw.tutorial.exception.*;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NameAlreadyExistsException.class)
-    public ResponseEntity<String> handleConflict(NameAlreadyExistsException ex) {
+    @ExceptionHandler({NameAlreadyExistsException.class, ClientHasMaxLentGamesException.class, 
+    	LoanDateGreaterThanReturnDateException.class, GameLentClientContraintException.class,
+    	LoanPeriodGreaterThan14DaysException.class})
+    public ResponseEntity<String> handleConflict(Exception ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

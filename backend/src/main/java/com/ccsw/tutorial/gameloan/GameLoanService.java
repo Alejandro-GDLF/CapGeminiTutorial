@@ -38,8 +38,9 @@ public interface GameLoanService {
      *
      * @param id  PK de la entidad
      * @param dto datos de la entidad
+     * @throws Exception 
      */
-    void save(Long id, GameLoanDto dto);
+    void save(Long id, GameLoanDto dto) throws Exception;
 
     /**
      * Método para crear o actualizar un {@link GameLoan}

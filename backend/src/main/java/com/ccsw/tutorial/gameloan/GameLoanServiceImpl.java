@@ -18,6 +18,7 @@ import com.ccsw.tutorial.gameloan.model.GameLoanDto;
 import com.ccsw.tutorial.gameloan.specifications.GameLoanSpecDirector;
 import com.ccsw.tutorial.gameloan.specifications.GameLoanSpecBuilder;
 import com.ccsw.tutorial.gameloan.model.GameLoanSearchDto;
+import com.ccsw.tutorial.exception.*;
 
 @Service
 @Transactional
@@ -32,28 +33,28 @@ public class GameLoanServiceImpl implements GameLoanService {
     @Autowired
     GameService gameService;
 
-    private void checkConstraints(GameLoanDto dto) throws DataIntegrityViolationException {
+    private void checkConstraints(GameLoanDto dto) throws Exception {
         // Return_date > loan_date
         if (dto.getLoan_date().compareTo(dto.getReturn_date()) > 0)
-            throw new DataIntegrityViolationException("Loan date can't be greater than Return date");
+            throw new LoanDateGreaterThanReturnDateException();
 
         // return_date - loan_date <= 14 days
         if (Duration.between(dto.getLoan_date(), dto.getReturn_date()).toDays() > 14) {
-            throw new DataIntegrityViolationException("Loan duration can't be more than 14 days");
+            throw new LoanPeriodGreaterThan14DaysException();
         }
         
         // game can't be lent to no more than two clients at once
         GameLoanSpecBuilder builder = new GameLoanSpecBuilder();
         GameLoanSpecDirector.gameLoansOfGameBetweenDates(builder, dto);
         if (this.gameLoanRepository.count(builder.build()) >= 1) {
-            throw new DataIntegrityViolationException("Game can not be lent to two clients at once.");
+            throw new GameLentClientContraintException();
         }
         
         // client can't have no more than 2 games lent
         builder = new GameLoanSpecBuilder();
         GameLoanSpecDirector.gamesLoansOfClientBetweenDates(builder, dto);
         if (this.gameLoanRepository.count(builder.build()) >= 2) {
-            throw new DataIntegrityViolationException("Clients can not have two games lent at once.");
+            throw new ClientHasMaxLentGamesException();
         }
     }
     /**
@@ -88,9 +89,10 @@ public class GameLoanServiceImpl implements GameLoanService {
 
     /**
      * {@inheritDoc}
+     * @throws Exception 
      */
     @Override
-    public void save(Long id, GameLoanDto data) {
+    public void save(Long id, GameLoanDto data) throws Exception {
         this.checkConstraints(data);
 
         GameLoan gameLoan = id == null ? new GameLoan() : this.get(id);
